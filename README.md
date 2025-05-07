@@ -28,7 +28,7 @@ export FIRESTORE_PROJECT_ID="your-project-id"
 ```bash
 # Firestore 에뮬레이터 실행
 $env:FIRESTORE_EMULATOR_HOST="localhost:8080"
-$env:FIRESTORE_PROJECT_ID="moony-stock-analysis"
+$env:FIRESTORE_PROJECT_ID="your-project-id"
 ```
 
 ### 3. 배포 환경 (실제 Firestore 사용)
