@@ -16,20 +16,20 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0.2.0
       with:
         service_account_key: ${{ secrets.GCP_SA_KEY }}
-        project_id: ${{ env.GCP_PROJECT_ID }}
+        project_id: ${{ vars.GCP_PROJECT_ID }}
 
     - name: Authenticate with Google Cloud
       run: gcloud auth configure-docker
 
     - name: Build and push Docker image
       run: |
-        docker build -t asia.gcr.io/${{ env.GCP_PROJECT_ID }}/moony-stock-api:${{ github.sha }} .
-        docker push asia.gcr.io/${{ env.GCP_PROJECT_ID }}/moony-stock-api:${{ github.sha }}
+        docker build -t asia.gcr.io/${{ vars.GCP_PROJECT_ID }}/moony-stock-api:${{ github.sha }} .
+        docker push asia.gcr.io/${{ vars.GCP_PROJECT_ID }}/moony-stock-api:${{ github.sha }}
 
     - name: Deploy to Cloud Run
       run: |
         gcloud run deploy moony-stock-api \
-          --image asia.gcr.io/${{ env.GCP_PROJECT_ID }}/moony-stock-api:${{ github.sha }} \
+          --image asia.gcr.io/${{ vars.GCP_PROJECT_ID }}/moony-stock-api:${{ github.sha }} \
           --platform managed \
-          --region ${{ env.GCP_REGION }} \
+          --region ${{ vars.GCP_REGION }} \
           --allow-unauthenticated
