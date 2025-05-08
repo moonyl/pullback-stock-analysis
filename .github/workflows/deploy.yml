@@ -28,6 +28,10 @@ jobs:
 
     - name: Deploy to Cloud Run
       run: |
+        gcloud beta run services add-iam-policy-binding moony-stock-api \
+          --region=${{ vars.GCP_REGION }} \
+          --member="allUsers" \
+          --role="roles/run.invoker"
         gcloud run deploy moony-stock-api \
           --image asia.gcr.io/${{ vars.GCP_PROJECT_ID }}/moony-stock-api:${{ github.sha }} \
           --platform managed \
