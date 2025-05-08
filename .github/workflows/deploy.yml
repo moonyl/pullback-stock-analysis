@@ -22,6 +22,12 @@ jobs:
       run: |
         gcloud components install beta
         gcloud auth configure-docker
+        
+    - name: Grant Run Admin permissions
+      run: |
+        gcloud projects add-iam-policy-binding ${{ vars.GCP_PROJECT_ID }} \
+          --member="serviceAccount:${{ secrets.GCP_SA_EMAIL }}" \
+          --role="roles/run.admin"
 
     - name: Build and push Docker image
       run: |
