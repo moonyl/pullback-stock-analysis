@@ -35,9 +35,14 @@ def load_ticker_map():
             print(f"Fatal Error: Failed to load ticker map: {e}")
             _ticker_map_cache = {}
 
-@router.on_event("startup")
-async def startup_event():
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app):
     load_ticker_map()
+    yield
+
+router = APIRouter(lifespan=lifespan)
 
 def check_pullback(ticker: str, date_str: str) -> dict:
     """주어진 티커와 날짜를 기준으로 눌림목 조건을 확인합니다."""
